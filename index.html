@@ -16,7 +16,7 @@
                 Your browser does not support the video tag.
             </video>
             <h1>Stay Informed, Stay Safe!</h1>
-            <div class="metrics">
+            <!-- <div class="metrics">
                 <div class="metric" id="temperature">
                     <h2>Temperature</h2>
                     <p><span id="celsius"></span>&deg;C / <span id="fahrenheit"></span>&deg;F</p>
@@ -26,6 +26,44 @@
                     <p>TDS: <span id="tds"></span> ppm</p>
                     <p>EC: <span id="ec"></span> &micro;S/cm</p>
                 </div>
+            </div> -->
+            <div class="gauge_container">
+                <div class="temperature">
+                  <div class="gauge" id="C_gauge">
+                    <div id="C_gauge__body" class="gauge__body">
+                      <div id="C_gauge__fill" class="gauge__fill"></div>
+                      <div id="C_gauge__cover" class="gauge__cover"></div>
+                    </div>
+                    <div class="gauge_detail">Temperature Celsius</div>
+                  </div>
+            
+                  <div class="gauge" id="F_gauge">
+                    <div class="gauge__body" id="F_gauge__body">
+                      <div class="gauge__fill" id="F_gauge__fill"></div>
+                      <div class="gauge__cover" id="F_gauge__cover"></div>
+                    </div>
+                    <div class="gauge_detail">Temperature Fahrenheit</div>
+                  </div>
+                </div>
+                
+                <div class="quality">
+                  <div class="gauge" id="TDS_gauge">
+                    <div class="gauge__body" id="TDS_gauge__body">
+                      <div class="gauge__fill" id="TDS_gauge__fill"></div>
+                      <div class="gauge__cover" id="TDS_gauge__cover"></div>
+                    </div>
+                    <div class="gauge_detail">TDS</div>
+                  </div>
+            
+                  <div class="gauge" id="EC_gauge">
+                    <div class="gauge__body" id="EC_gauge__body">
+                      <div class="gauge__fill" id="EC_gauge__fill"></div>
+                      <div class="gauge__cover" id="EC_gauge__cover"></div>
+                    </div>
+                    <div class="gauge_detail">EC</div>
+                  </div>
+                </div>
+                
             </div>
         </div>
     </section>
@@ -85,8 +123,10 @@
         <p>&copy; 2024 KirtiSagar. All rights reserved.</p>
     </footer>
 
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="script.js"></script>
+    <!-- the scripts for products you want to access must be added-->
+	<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
@@ -113,24 +153,28 @@
         var database = firebase.database();
 
         //getting reference to the data we want
-        var dataRef1 = database.ref('Sensor/Celsius');
-        var dataRef2 = database.ref('Sensor/Fahrenheit');
-        var dataRef3 = database.ref('Sensor/tdsData');
+        var dataRef1 = database.ref('sensors/celsius');
+        var dataRef2 = database.ref('sensors/fahrenheit');
+        var dataRef3 = database.ref('sensors/tds');
+        var dataRef4 = database.ref('sensors/ec');
 
         //fetch the data
         dataRef1.on('value', function(getdata1){
             var Celsius = getdata1.val();
-            document.getElementById('celsius').innerHTML = Celsius;
+            //setCelsiusGaugeValue(C_gaugeElement, Celsius/100);
+            // document.getElementById('celsius').innerHTML = Celsius;
         })
 
         dataRef2.on('value', function(getdata2){
             var Fahrenheit = getdata2.val();
-            document.getElementById('fahrenheit').innerHTML = Fahrenheit ;
+            setFahrenheitGaugeValue(F_gaugeElement, Fahrenheit);
+            // document.getElementById('fahrenheit').innerHTML = Fahrenheit ;
         })
         dataRef3.on('value', function(getdata3){
             var tdsData = getdata3.val();
-            document.getElementById('tds').innerHTML = tdsData;
+            setTDSGaugeValue(TDS_gaugeElement, tdsData/1000);
+            // document.getElementById('tds').innerHTML = tdsData;
         })
-    </script>
+      </script>
 </body>
 </html>
