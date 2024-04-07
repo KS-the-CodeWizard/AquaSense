@@ -10,7 +10,7 @@ function setCelsiusGaugeValue(gauge, value) {
   gauge.querySelector("#C_gauge__fill").style.transform = `rotate(${
     value / 2
   }turn)`;
-  gauge.querySelector("#C_gauge__cover").textContent = `${value * 100}`+"°C";
+  gauge.querySelector("#C_gauge__cover").textContent = `${parseFloat(value.toFixed(2)) * 100}`+"°C";
 }
 // setCelsiusGaugeValue(C_gaugeElement, 0.3);
 
@@ -27,7 +27,7 @@ function setFahrenheitGaugeValue(gauge, value) {
   gauge.querySelector("#F_gauge__fill").style.transform = `rotate(${
     ScaledValue / 2
   }turn)`;
-  gauge.querySelector("#F_gauge__cover").textContent = `${value}°F`;
+  gauge.querySelector("#F_gauge__cover").textContent = `${value.toFixed(2)}°F`;
 }
 setFahrenheitGaugeValue(F_gaugeElement, -0.4);
 
@@ -42,25 +42,22 @@ function setTDSGaugeValue(gauge, value) {
   gauge.querySelector("#TDS_gauge__fill").style.transform = `rotate(${
     value / 2
   }turn)`;
-  gauge.querySelector("#TDS_gauge__cover").textContent = `${Math.round(
-    value * 1000
-  )} ppm`;
+  gauge.querySelector("#TDS_gauge__cover").textContent = `${parseFloat(value.toFixed(2)) * 1000} ppm`;
 }
 // setTDSGaugeValue(TDS_gaugeElement, 0.5);
 
 //TDS----------------------------------------------
 const EC_gaugeElement = document.querySelector("#EC_gauge");
 function setECGaugeValue(gauge, value) {
+  ECscaledValue = value/10;
   if (value < 0 || value > 1) {
     gauge.querySelector("#EC_gauge__cover").textContent = `err`;
     gauge.querySelector("#EC_gauge__fill").style.transform = `rotate(${0}turn)`;
     return;
   }
   gauge.querySelector("#EC_gauge__fill").style.transform = `rotate(${
-    value / 2
+    ECscaledValue / 2
   }turn)`;
-  gauge.querySelector("#EC_gauge__cover").textContent = `${Math.round(
-    value * 100
-  )}mS/cm`;
+  gauge.querySelector("#EC_gauge__cover").textContent = `${value.toFixed(2)}mS/cm`;
 }
-setECGaugeValue(EC_gaugeElement, 0.6);
+//setECGaugeValue(EC_gaugeElement, 0.6);
